@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест: Основы трудового права</title>
+    <style>
+        /* Основные стили */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #e0eafc, #cfdef3); /* Лёгкий градиент фона */
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .active-screen {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5em;
+            padding: 10px 0;
+        }
+
+        .question-number {
+            font-weight: bold;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        form {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+        }
+
+        label:hover {
+            background-color: #e9ecef;
+            transform: scale(1.01);
+        }
+
+        input[type="radio"] {
+            margin-right: 12px;
+        }
+
+        button {
+            margin: 10px 5px;
+            padding: 12px 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-back {
+            background: linear-gradient(to right, #95a5a6, #7f8c8d);
+            color: white;
+        }
+
+        .btn-back:hover {
+            background: linear-gradient(to right, #7f8c8d, #95a5a6);
+        }
+
+        .btn-next, .btn-submit {
+            background: linear-gradient(to right, #2ecc71, #27ae60);
+            color: white;
+        }
+
+        .btn-next:hover, .btn-submit:hover {
+            background: linear-gradient(to right, #27ae60, #2ecc71);
+        }
+
+        .btn-skip {
+            background: linear-gradient(to right, #f39c12, #e67e22);
+            color: white;
+        }
+
+        .btn-skip:hover {
+            background: linear-gradient(to right, #e67e22, #f39c12);
+        }
+
+        .result {
+            font-size: 1.2em;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .missed-warning {
+            color: #e74c3c;
+            font-weight: bold;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        /* Стили для экрана результатов */
+        #result-screen {
+            text-align: center;
+        }
+
+        #result-screen h2 {
+            color: #27ae60;
+        }
+
+        #result-screen p {
+            margin: 10px 0;
+        }
+
+        /* Стили для кнопки перезапуска */
+        #restart-btn {
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+            margin-top: 20px;
+        }
+
+        #restart-btn:hover {
+            background: linear-gradient(to right, #2980b9, #3498db);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="welcome-screen" class="screen active-screen">
+            <h1>Добро пожаловать на тест!</h1>
+            <p>Тема: <strong>Основы трудового права в Российской Федерации</strong></p>
+            <p>Автор лекции: кандидат юридических наук, доцент Самарского национального исследовательского университета имени академика С.П. Королева М.Н. Развейкина</p>
+            <p>Автор теста: Барзали Никита Константинович, группа ЦТБ-31</p>
+            <button onclick="startQuiz()">Начать тест</button>
+        </div>
+
+        <div id="q1" class="screen">
+            <div class="question-number">Вопрос 1 из 8</div>
+            <form>
+                <h3>Что такое трудовое право?</h3>
+                <p><strong>Выберите правильное определение трудового права как отрасли права:</strong></p>
+                <input type="radio" name="q1" value="a" id="q1_a"><label for="q1_a">A) Совокупность норм, регулирующих отношения по выполнению физическим лицом конкретной работы по заказу юридического лица</label><br>
+                <input type="radio" name="q1" value="b" id="q1_b"><label for="q1_b">B) Отрасль права, регулирующая отношения между работником и работодателем, а также связанные с ними производные отношения</label><br>
+                <input type="radio" name="q1" value="c" id="q1_c"><label for="q1_c">C) Система правил, устанавливающих порядок заключения гражданско-правовых договоров на выполнение услуг</label><br>
+            </form>
+            <button class="btn-skip" onclick="skipQuestion('q1', 'q2')">Пропустить</button>
+            <button class="btn-next" onclick="checkAndNext('q1', 'q2', 'b')">Далее</button>
+        </div>
+
+        <div id="q2" class="screen">
+            <div class="question-number">Вопрос 2 из 8</div>
+            <form>
+                <h3>Границы трудового права</h3>
+                <p><strong>Какое из перечисленных отношений НЕ регулируется трудовым правом?</strong></p>
+                <input type="radio" name="q2" value="a" id="q2_a"><label for="q2_a">A) Отношения между работодателем и работником по поводу выполнения трудовой функции</label><br>
+                <input type="radio" name="q2" value="b" id="q2_b"><label for="q2_b">B) Отношения между заказчиком и фрилансером по договору возмездного оказания услуг</label><br>
+                <input type="radio" name="q2" value="c" id="q2_c"><label for="q2_c">C) Коллективные переговоры между профсоюзом и администрацией предприятия</label><br>
+                <input type="radio" name="q2" value="d" id="q2_d"><label for="q2_d">D) Приём на работу через службу занятости</label><br>
+            </form>
+            <button class="btn-back" onclick="showScreen('q1')">Назад</button>
+            <button class="btn-skip" onclick="skipQuestion('q2', 'q3')">Пропустить</button>
+            <button class="btn-next" onclick="checkAndNext('q2', 'q3', 'b')">Далее</button>
+        </div>
+
+        <div id="q3" class="screen">
+            <div class="question-number">Вопрос 3 из 8</div>
+            <form>
+                <h3>Испытательный срок</h3>
+                <p><strong>Гражданин Павлов устраивается на должность генерального директора ООО. Работодатель предложил испытательный срок 4 месяца. Правомерно ли это?</strong></p>
+                <input type="radio" name="q3" value="a" id="q3_a"><label for="q3_a">A) Нет — максимум 3 месяца для всех</label><br>
+                <input type="radio" name="q3" value="b" id="q3_b"><label for="q3_b">B) Да — для руководителей допускается до 6 месяцев</label><br>
+                <input type="radio" name="q3" value="c" id="q3_c"><label for="q3_c">C) Нет — испытательный срок запрещён для руководителей</label><br>
+                <input type="radio" name="q3" value="d" id="q3_d"><label for="q3_d">D) Да — если работник согласен письменно</label><br>
+            </form>
+            <button class="btn-back" onclick="showScreen('q2')">Назад</button>
+            <button class="btn-skip" onclick="skipQuestion('q3', 'q4')">Пропустить</button>
+            <button class="btn-next" onclick="checkAndNext('q3', 'q4', 'b')">Далее</button>
+        </div>
+
+        <div id="q4" class="screen">
+            <div class="question-number">Вопрос 4 из 8</div>
+            <form>
+                <h3>Что такое трудовой договор?</h3>
+                <p><strong>Выберите наиболее точное определение трудового договора по ТК РФ:</strong></p>
+                <input type="radio" name="q4" value="a" id="q4_a"><label for="q4_a">A) Соглашение, по которому заказчик обязан оплатить результат работы, а исполнитель — его предоставить</label><br>
+                <input type="radio" name="q4" value="b" id="q4_b"><label for="q4_b">B) Соглашение между работодателем и работником, в соответствии с которым работник обязуется лично выполнять трудовую функцию, а работодатель — обеспечивать условия труда и выплачивать зарплату</label><br>
+                <input type="radio" name="q4" value="c" id="q4_c"><label for="q4_c">C) Договор, по которому физическое лицо получает статус самозанятого и работает на условиях аутсорсинга</label><br>
+            </form>
+            <button class="btn-back" onclick="showScreen('q3')">Назад</button>
+            <button class="btn-skip" onclick="skipQuestion('q4', 'q5')">Пропустить</button>
+            <button class="btn-next" onclick="checkAndNext('q4', 'q5', 'b')">Далее</button>
+        </div>
+
+        <div id="q5" class="screen">
+            <div class="question-number">Вопрос 5 из 8</div>
+            <form>
+                <h3>Дисциплинарная ответственность</h3>
+                <p><strong>Работник не вышел на смену без уважительной причины. Работодатель в тот же день издал приказ об увольнении за прогул. Допущено ли нарушение?</strong></p>
+                <input type="radio" name="q5" value="a" id="q5_a"><label for="q5_a">A) Нет, если факт прогула очевиден</label><br>
+                <input type="radio" name="q5" value="b" id="q5_b"><label for="q5_b">B) Да — работодатель обязан запросить письменное объяснение</label><br>
+                <input type="radio" name="q5" value="c" id="q5_c"><label for="q5_c">C) Нет — объяснение нужно только при выговоре</label><br>
+                <input type="radio" name="q5" value="d" id="q5_d"><label for="q5_d">D) Да — увольнение возможно только через суд</label><br>
+            </form>
+            <button class="btn-back" onclick="showScreen('q4')">Назад</button>
+            <button class="btn-skip" onclick="skipQuestion('q5', 'q6')">Пропустить</button>
+            <button class="btn-next" onclick="checkAndNext('q5', 'q6', 'b')">Далее</button>
+        </div>
+
+        <div id="q6" class="screen">
+            <div class="question-number">Вопрос 6 из 8</div>
+            <form>
+                <h3>Материальная ответственность работника</h3>
+                <p><strong>Работник случайно повредил оборудование на 150 000 руб. Его зарплата — 60 000 руб./мес. В каком размере он несёт ответственность?</strong></p>
+                <input type="radio" name="q6" value="a" id="q6_a"><label for="q6_a">A) Полностью — 150 000 руб.</label><br>
+                <input type="radio" name="q6" value="b" id="q6_b"><label for="q6_b">B) Только в пределах одного месячного заработка — 60 000 руб.</label><br>
+                <input type="radio" name="q6" value="c" id="q6_c"><label for="q6_c">C) Не несёт — ущерб причинён неумышленно</label><br>
+                <input type="radio" name="q6" value="d" id="q6_d"><label for="q6_d">D) Только если подписан договор о полной МО</label><br>
+            </form>
+            <button class="btn-back" onclick="showScreen('q5')">Назад</button>
+            <button class="btn-skip" onclick="skipQuestion('q6', 'q7')">Пропустить</button>
+            <button class="btn-next" onclick="checkAndNext('q6', 'q7', 'b')">Далее</button>
+        </div>
+
+        <div id="q7" class="screen">
+            <div class="question-number">Вопрос 7 из 8</div>
+            <form>
+                <h3>Защита трудовых прав</h3>
+                <p><strong>Работника незаконно уволили 15 февраля. Он узнал об этом 10 апреля. Может ли он подать иск в суд?</strong></p>
+                <input type="radio" name="q7" value="a" id="q7_a"><label for="q7_a">A) Нет — срок для обращения в суд составляет 1 месяц со дня увольнения (ст. 392 ТК РФ)</label><br>
+                <input type="radio" name="q7" value="b" id="q7_b"><label for="q7_b">B) Да — срок 3 месяца с момента нарушения</label><br>
+                <input type="radio" name="q7" value="c" id="q7_c"><label for="q7_c">C) Да — срок 1 месяц со дня увольнения</label><br>
+                <input type="radio" name="q7" value="d" id="q7_d"><label for="q7_d">D) Только через Роструд</label><br>
+            </form>
+            <button class="btn-back" onclick="showScreen('q6')">Назад</button>
+            <button class="btn-skip" onclick="skipQuestion('q7', 'q8')">Пропустить</button>
+            <button class="btn-next" onclick="checkAndNext('q7', 'q8', 'a')">Далее</button>
+        </div>
+
+        <div id="q8" class="screen">
+            <div class="question-number">Вопрос 8 из 8</div>
+            <form>
+                <h3>Прекращение трудового договора по инициативе работодателя</h3>
+                <p><strong>По какому из нижеперечисленных оснований НЕ может быть расторгнут трудовой договор по инициативе работодателя?</strong></p>
+                <input type="radio" name="q8" value="a" id="q8_a"><label for="q8_a">A) Сокращение численности или штата работников</label><br>
+                <input type="radio" name="q8" value="b" id="q8_b"><label for="q8_b">B) Повторное неисполнение обязанностей без уважительных причин</label><br>
+                <input type="radio" name="q8" value="c" id="q8_c"><label for="q8_c">C) Инициатива работника подать заявление об увольнении</label><br>
+                <input type="radio" name="q8" value="d" id="q8_d"><label for="q8_d">D) Совершение проступка, связанного с неисполнением обязанностей по охране труда</label><br>
+            </form>
+            <button class="btn-back" onclick="showScreen('q7')">Назад</button>
+            <button class="btn-skip" onclick="skipQuestion('q8', 'review-missed')">Пропустить</button>
+            <button class="btn-submit" onclick="checkAndNext('q8', 'review-missed', 'c')">Проверить результаты</button>
+        </div>
+
+        <div id="review-missed" class="screen">
+            <h2>Повторите пропущенные вопросы</h2>
+            <p class="missed-warning" id="missed-list">Вы пропустили некоторые вопросы. Ответьте на них, чтобы увидеть итоги.</p>
+            <div id="missed-questions-container">
+                <!-- Сюда будут добавляться пропущенные вопросы -->
+            </div>
+            <button id="finish-review-btn" style="display:none;" class="btn-submit" onclick="showScreen('result-screen')">Посмотреть результаты</button>
+        </div>
+
+        <div id="result-screen" class="screen result">
+            <h2>Результаты теста</h2>
+            <p>Вы ответили правильно на <span id="correct-count">0</span> из 8 вопросов.</p>
+            <p id="result-text"></p>
+            <button id="restart-btn" onclick="restartQuiz()">Пройти снова</button>
+        </div>
+    </div>
+
+    <script>
+        let correctAnswers = 0;
+        const totalQuestions = 8;
+        const allQuestions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8'];
+        const correctValues = {
+            q1: 'b',
+            q2: 'b',
+            q3: 'b',
+            q4: 'b',
+            q5: 'b',
+            q6: 'b',
+            q7: 'a',
+            q8: 'c'
+        };
+        let answeredQuestions = new Set();
+        let countedCorrect = new Set();
+
+        function startQuiz() {
+            answeredQuestions.clear();
+            countedCorrect.clear();
+            correctAnswers = 0;
+            document.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
+            showScreen('q1');
+        }
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active-screen');
+            });
+            document.getElementById(screenId).classList.add('active-screen');
+
+            if (screenId === 'result-screen') {
+                updateResultScreen();
+            }
+            if (screenId === 'review-missed') {
+                loadMissedQuestions();
+            }
+        }
+
+        function skipQuestion(currentQ, nextQ) {
+            answeredQuestions.delete(currentQ);
+            countedCorrect.delete(currentQ);
+            showScreen(nextQ);
+        }
+
+        function checkAndNext(currentQ, nextQ, correctValue) {
+            const selectedOption = document.querySelector(`input[name="${currentQ}"]:checked`);
+            if (!selectedOption) {
+                alert("Пожалуйста, выберите ответ.");
+                return;
+            }
+
+            answeredQuestions.add(currentQ);
+
+            if (selectedOption.value === correctValue && !countedCorrect.has(currentQ)) {
+                correctAnswers++;
+                countedCorrect.add(currentQ);
+            }
+            showScreen(nextQ);
+        }
+
+        function loadMissedQuestions() {
+            const missedContainer = document.getElementById('missed-questions-container');
+            const finishBtn = document.getElementById('finish-review-btn');
+            const missedList = document.getElementById('missed-list');
+
+            missedContainer.innerHTML = '';
+
+            const unanswered = allQuestions.filter(q => !answeredQuestions.has(q));
+
+            if (unanswered.length > 0) {
+                missedList.textContent = `Вы пропустили или не ответили на ${unanswered.length} вопрос(ов). Пожалуйста, ответьте на них.`;
+                unanswered.forEach(qNum => {
+                    const originalQElement = document.getElementById(qNum);
+                    if (!originalQElement) return;
+
+                    const qElement = originalQElement.cloneNode(true);
+                    qElement.id = qNum + "-review";
+                    qElement.style.display = 'block';
+
+                    const oldButtons = qElement.querySelectorAll('button');
+                    oldButtons.forEach(btn => btn.remove());
+
+                    const submitButton = document.createElement('button');
+                    submitButton.className = 'btn-submit';
+                    submitButton.textContent = 'Ответить';
+                    submitButton.onclick = function() {
+                        const selectedOpt = qElement.querySelector(`input[name="${qNum}"]:checked`);
+                        if (!selectedOpt) {
+                            alert("Пожалуйста, выберите ответ.");
+                            return;
+                        }
+                        if (selectedOpt.value === correctValues[qNum] && !countedCorrect.has(qNum)) {
+                             correctAnswers++;
+                             countedCorrect.add(qNum);
+                        }
+                        answeredQuestions.add(qNum);
+                        qElement.remove();
+
+                        const stillUnanswered = allQuestions.filter(q => !answeredQuestions.has(q));
+                        if (stillUnanswered.length === 0) {
+                            finishBtn.style.display = 'inline-block';
+                            missedList.textContent = "Все вопросы отвечены. Нажмите 'Посмотреть результаты'.";
+                        }
+                    };
+
+                    qElement.appendChild(submitButton);
+                    missedContainer.appendChild(qElement);
+                });
+
+                finishBtn.style.display = 'none';
+            } else {
+                finishBtn.style.display = 'inline-block';
+                missedList.textContent = "Все вопросы были отвечены ранее. Нажмите 'Посмотреть результаты'.";
+            }
+        }
+
+        function updateResultScreen() {
+            document.getElementById('correct-count').textContent = correctAnswers;
+            let resultText = '';
+            if (correctAnswers >= Math.floor(totalQuestions * 0.75)) {
+                resultText = 'Отлично! Вы хорошо разбираетесь в трудовом праве.';
+            } else if (correctAnswers >= Math.floor(totalQuestions * 0.5)) {
+                resultText = 'Хороший результат. Повторите темы: трудовой договор, дисциплина, защита прав.';
+            } else {
+                resultText = 'Рекомендуется внимательно изучить лекцию. Тема "Трудовое право" важна для понимания ваших прав и обязанностей.';
+            }
+            document.getElementById('result-text').textContent = resultText;
+        }
+
+        function restartQuiz() {
+            correctAnswers = 0;
+            answeredQuestions.clear();
+            countedCorrect.clear();
+            document.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
+            showScreen('welcome-screen');
+        }
+    </script>
+
+</body>
+</html>
